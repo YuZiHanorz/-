@@ -1,1 +1,1 @@
-g++ command.cpp -o code -std=c++11
+g++ command.cpp -o code -std=c++14
