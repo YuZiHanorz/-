@@ -8,13 +8,13 @@
 #include "user.h"
 #include "train.h"
 #include "ticket.h"
-#include "execute.h"
+#include "execute1.h"
 
 #define maxlen 300
 
 using namespace std;
 
-void init() {
+/*void init() {
 	fout.open("UserShelf", ios::binary | ios::in | ios::out);
 	if (!fout) {
 		fout.open("UserShelf", ios::binary | ios::out);
@@ -24,37 +24,16 @@ void init() {
 	fout.seekg(0, ios::end);
 	user_number = fout.tellg() / user_block;
 	fout.seekg(0, ios::beg);
-	fstream fout1;
-	fout1.open("ticket.db", ios::binary | ios::in | ios::out);
-	if (!fout1) {
-		fout1.open("ticket.db", ios::binary | ios::out);
-		fout1.close();
+	return;
+}*/
+
+void init() {
+	fp = fopen("UserShelf.db", "rb+");
+	if (!fp) {
+		fp = fopen("UserShelf.db", "wb+");
 	}
-	else fout1.close();
-	fout1.open("train.db", ios::binary | ios::in | ios::out);
-	if (!fout1) {
-		fout1.open("train.db", ios::binary | ios::out);
-		fout1.close();
-	}
-	else fout1.close();
-	fout1.open("find_ticket.db", ios::binary | ios::in | ios::out);
-	if (!fout1) {
-		fout1.open("find_ticket.db", ios::binary | ios::out);
-		fout1.close();
-	}
-	else fout1.close();
-	fout1.open("find_train.db", ios::binary | ios::in | ios::out);
-	if (!fout1) {
-		fout1.open("find_train.db", ios::binary | ios::out);
-		fout1.close();
-	}
-	else fout1.close();
-	fout1.open("location.db", ios::binary | ios::in | ios::out);
-	if (!fout1) {
-		fout1.open("location.db", ios::binary | ios::out);
-		fout1.close();
-	}
-	else fout1.close();
+	fseek(fp, 0, SEEK_END);
+	user_number = ftell(fp) / user_block;
 	return;
 }
 
@@ -158,7 +137,6 @@ int main() {
 			mystring<20> name_price[5];
 			for (int i = 0; i < num_price; ++i)
 				name_price[i] = readLOC(it);
-
 			train_station train_sta[60];
 			for (int i = 0; i < num_station; ++i) {
 				char station_inf[maxlen], *st = station_inf;
@@ -211,25 +189,26 @@ int main() {
 			modify_train(id, train_name, truecatalog, num_station, num_price, name_price, train_sta, thetrain);
 		}
 		else if (commandtype == EXIT) {
-			fout.close();
+			fflush(fp);
+			fclose(fp);
 			cout << "BYE" << '\n';
 			exit(0);
 		}
 		else if (commandtype == CLEAN) {
-			fout.close();
-			fout.open("UserShelf", ios::binary | ios::out);
-			fout.close();
-			fstream fout1;
-			fout1.open("ticket.db", ios::out);
-			fout1.close();
-			fout1.open("train.db", ios::out);
-			fout1.close();
-			fout1.open("find_ticket.db", ios::out);
-			fout1.close();
-			fout1.open("find_train.db", ios::out);
-			fout1.close();
-			fout1.open("location.db", ios::out);
-			fout1.close();
+			FILE *fp1;
+			fp1 = fopen("UserShelf.db", "w+");
+			fclose(fp1);
+			fp1 = fopen("ticket.db", "w+");
+			fclose(fp1);
+			fp1 = fopen("train.db", "w+");
+			fclose(fp1);
+			fp1 = fopen("find_ticket.db", "w+");
+			fclose(fp1);
+			fp1 = fopen("find_train.db", "w+");
+			fclose(fp1);
+			fp1 = fopen("location.db", "w+");
+			fclose(fp1);
+			user_number = 0;
 			cout << 1 << '\n';
 		}
 		else if (commandtype == INVALID_COMMANDTYPE) continue;
