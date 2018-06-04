@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
-#include "predifined.h"
+#include "predefined.h"
 #include "bptree.h"
 #include "string.h"
 #include "read.h"
