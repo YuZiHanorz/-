@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
-#include "predefined.h"
+#include "predifined.h"
 #include "bptree.h"
 #include "string.h"
 #include "read.h"
@@ -24,6 +24,37 @@ void init() {
 	fout.seekg(0, ios::end);
 	user_number = fout.tellg() / user_block;
 	fout.seekg(0, ios::beg);
+	fstream fout1;
+	fout1.open("ticket.db", ios::binary | ios::in | ios::out);
+	if (!fout1) {
+		fout1.open("ticket.db", ios::binary | ios::out);
+		fout1.close();
+	}
+	else fout1.close();
+	fout1.open("train.db", ios::binary | ios::in | ios::out);
+	if (!fout1) {
+		fout1.open("train.db", ios::binary | ios::out);
+		fout1.close();
+	}
+	else fout1.close();
+	fout1.open("find_ticket.db", ios::binary | ios::in | ios::out);
+	if (!fout1) {
+		fout1.open("find_ticket.db", ios::binary | ios::out);
+		fout1.close();
+	}
+	else fout1.close();
+	fout1.open("find_train.db", ios::binary | ios::in | ios::out);
+	if (!fout1) {
+		fout1.open("find_train.db", ios::binary | ios::out);
+		fout1.close();
+	}
+	else fout1.close();
+	fout1.open("location.db", ios::binary | ios::in | ios::out);
+	if (!fout1) {
+		fout1.open("location.db", ios::binary | ios::out);
+		fout1.close();
+	}
+	else fout1.close();
 	return;
 }
 
@@ -199,7 +230,6 @@ int main() {
 			fout1.close();
 			fout1.open("location.db", ios::out);
 			fout1.close();
-			user_number = 0;
 			cout << 1 << '\n';
 		}
 		else if (commandtype == INVALID_COMMANDTYPE) continue;

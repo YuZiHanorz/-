@@ -6,7 +6,7 @@
 #include <cmath>
 #include <cstring>
 #include <cstddef>
-#include "predefined.h"
+#include "predifined.h"
 #include <assert.h>
 #include "string.h"
 #include "vector.h"
@@ -200,12 +200,6 @@ public:
 	bplus_tree(const char *pa, bool force_empty = false) : fp(nullptr), fp_level(0) {
 		memset(path, 0, sizeof(path));
 		strcpy(path, pa);
-
-		if (!force_empty) {
-			fp = fopen(path, "rb+");
-			if (fp == NULL)
-				force_empty = true;
-		}
 
 		if (!force_empty)
 			if (map(&meta, OFFSET_META) != 0)//find_meta
