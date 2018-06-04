@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cstring>
 #include <cmath>
-#include "predifined.h"
+#include "predefined.h"
 
 using namespace std;
 
