@@ -38,9 +38,9 @@ void init() {
 }
 
 int main() {
-	ios::sync_with_stdio(false);
-	cin.tie(0);
-	cout.tie(0);
+	//ios::sync_with_stdio(false);
+	//cin.tie(0);
+	//cout.tie(0);
 	init();
 	bplus_tree<ticket> theticket("ticket.db");
 	bplus_tree<train> thetrain("train.db");
