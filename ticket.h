@@ -23,6 +23,11 @@ struct ticket {
 	ticket() {};
 	ticket(const mystring<20> &ctrain_id, const mystring<20> &cloc1, const mystring<20> &cloc2, const mystring<10> &cdate)
 		: train_id(ctrain_id), loc1(cloc1), loc2(cloc2), date(cdate) {};
+	ticket(const mystring<20> &ctrain_id, const mystring<20> &cloc1, const mystring<20> &cloc2, const mystring<10> &cdate,
+		const char &ccatalog, const mystring<10> &cloc1date, const mystring<5> &cloc1time, const mystring<10> &cloc2date,
+		const mystring<5> &cloc2time, const int &cnum_kind)
+		: train_id(ctrain_id), loc1(cloc1), loc2(cloc2), date(cdate), catalog(ccatalog), loc1date(cloc1date), loc1time(cloc1time), loc2date(cloc2date),
+		loc2time(cloc2time), num_kind(cnum_kind) {};
 	void display() {
 		cout << train_id << ' ' << loc1 << ' ' << loc1date << ' ' << loc1time << ' ' << loc2 << ' ' << loc2date << ' ' << loc2time << ' ';
 		for (int i = 0; i < num_kind; ++i) cout << ticket_kind[i] << ' ' << num_ticket_kind[i] << ' ' << price_ticket_kind[i] << ' ';
