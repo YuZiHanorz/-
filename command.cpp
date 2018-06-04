@@ -192,7 +192,7 @@ int main() {
 			fflush(fp);
 			fclose(fp);
 			cout << "BYE" << '\n';
-			exit(0);
+			return 0;
 		}
 		else if (commandtype == CLEAN) {
 			FILE *fp1;
