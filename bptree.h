@@ -30,6 +30,7 @@ public:
 		off_t slot;
 		off_t root_offset;
 		off_t first_leaf_offset;
+		char ad[4096 - 6 * sizeof(size_t) - 3 * sizeof(off_t)];
 	};
 
 	//index:key and children_slot_in_file
@@ -45,7 +46,7 @@ public:
 		off_t next;
 		off_t prev;
 		size_t num;
-		char add[84];
+		char add[4096 - 3 * sizeof(off_t) - sizeof(size_t) - TREE_ORDER * sizeof(index_t)];
 		index_t children[TREE_ORDER];
 
 		//children[i].max < children[i].key <= children[i+1].min
