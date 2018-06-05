@@ -6,7 +6,7 @@
 #include <cmath>
 #include <cstring>
 #include <cstddef>
-#include "predefined.h"
+#include "predifined.h"
 #include <assert.h>
 #include "string.h"
 #include "vector.h"
@@ -30,6 +30,7 @@ public:
 		off_t slot;
 		off_t root_offset;
 		off_t first_leaf_offset;
+		char ch[2048 - 6 * sizeof(size_t) - 3 * sizeof(off_t)];
 	};
 
 	//index:key and children_slot_in_file
@@ -45,9 +46,8 @@ public:
 		off_t next;
 		off_t prev;
 		size_t num;
-		char add[84];
 		index_t children[TREE_ORDER];
-
+		char ch[2048 - 3 * sizeof(off_t) - sizeof(size_t) - TREE_ORDER* sizeof(index_t)];
 		//children[i].max < children[i].key <= children[i+1].min
 	};
 
@@ -64,7 +64,6 @@ public:
 		off_t next;
 		off_t prev;
 		size_t num;
-		char add[4096 - (3 * sizeof(off_t) + sizeof(size_t) + 37 * sizeof(record_t)) % 4096];
 		record_t children[TREE_ORDER];
 
 	};
@@ -202,12 +201,6 @@ public:
 	bplus_tree(const char *pa, bool force_empty = false) : fp(nullptr), fp_level(0) {
 		memset(path, 0, sizeof(path));
 		strcpy(path, pa);
-
-		if (!force_empty) {
-			fp = fopen(path, "rb+");
-			if (fp == NULL)
-				force_empty = true;
-		}
 
 		if (!force_empty)
 			if (map(&meta, OFFSET_META) != 0)//find_meta
@@ -724,7 +717,7 @@ public:
 		while (beg != end) {
 			map(&node, beg->child);
 			node.parent = parent;
-			unmap(&node, beg->child);
+			unmap(&node, beg->child, SIZE_NO_CHILDREN);
 			++beg;
 		}
 	}
@@ -738,9 +731,9 @@ public:
 		node->next = alloc(next);
 		if (next->next != 0) {
 			node_t old_next;
-			map(&old_next, next->next);
+			map(&old_next, next->next, SIZE_NO_CHILDREN);
 			old_next.prev = node->next;
-			unmap(&old_next, next->next);
+			unmap(&old_next, next->next, SIZE_NO_CHILDREN);
 		}
 		unmap(&meta, OFFSET_META);
 	}
@@ -751,9 +744,9 @@ public:
 		prev->next = node->next;
 		if (node->next != 0) {
 			node_t next;
-			map(&next, node->next);
+			map(&next, node->next, SIZE_NO_CHILDREN);
 			next.prev = node->prev;
-			unmap(&next, node->next);
+			unmap(&next, node->next, SIZE_NO_CHILDREN);
 		}
 		unmap(&meta, OFFSET_META);
 	}
